@@ -64,34 +64,30 @@ const editTask = function () {
 
   const editInput = listItem.querySelector('input[type=text]');
   const label = listItem.querySelector('label');
-  const editBtn = listItem.querySelector('.edit');
-  const containsClass = listItem.classList.contains('editMode');
+  const editButton = listItem.querySelector('.edit');
+  const isEditMode = listItem.classList.contains('editMode');
 
-  if (containsClass) {
+  if (isEditMode) {
     //switch to .editmode
     //label becomes the inputs value.
     label.innerText = editInput.value;
-    editBtn.innerText = 'Edit';
+    editButton.innerText = 'Edit';
   } else {
     editInput.value = label.innerText;
-    editBtn.innerText = 'Save';
+    editButton.innerText = 'Save';
   }
 
-  //toggle .editmode on the parent.
   listItem.classList.toggle('editMode');
 };
 
-//Delete task.
 const deleteTask = function () {
   const listItem = this.parentNode;
   const ul = listItem.parentNode;
-  //Remove the parent list item from the ul.
+
   ul.removeChild(listItem);
 };
 
-//Mark task completed
 const taskCompleted = function () {
-  //Append the task list item to the #completed-tasks
   const listItem = this.parentNode;
   completedTasksHolder.appendChild(listItem);
   bindTaskEvents(listItem, taskIncomplete);
@@ -105,7 +101,7 @@ const taskIncomplete = function () {
 
 addButton.addEventListener('click', addTask);
 
-const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
+const bindTaskEvents = function (taskListItem, onCheckboxChange) {
   //select ListItems children
   const checkBox = taskListItem.querySelector('input[type=checkbox]');
   const editButton = taskListItem.querySelector('button.edit');
@@ -115,8 +111,8 @@ const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
   editButton.onclick = editTask;
   //Bind deleteTask to delete button.
   deleteButton.onclick = deleteTask;
-  //Bind taskCompleted to checkBoxEventHandler.
-  checkBox.onchange = checkBoxEventHandler;
+  //Bind taskCompleted to onCheckboxChange.
+  checkBox.onchange = onCheckboxChange;
 };
 
 //cycle over incompleteTaskHolder ul list items
